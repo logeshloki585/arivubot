@@ -14,7 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Globe, Loader2, Upload } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useRouter } from "next/navigation";
 import { ChatBotCreation } from "@/app/actions/Chatbot";
