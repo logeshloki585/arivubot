@@ -2,7 +2,6 @@ import * as React from "react";
 import { Filter, Download } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 export default function Activity() {
   return (

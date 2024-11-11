@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Lightbulb, Settings, TicketsPlane } from "lucide-react";
+import { Lightbulb } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -9,7 +9,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ChatBox from "./chatBox";
 import Activity from "./activity";
@@ -23,6 +22,7 @@ export default function PlaygroundPage() {
   const backgroundApi = process.env.NEXT_PUBLIC_BACKEND_API;
   useEffect(() => {
     console.log(backgroundApi);
+    console.log(message);
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {

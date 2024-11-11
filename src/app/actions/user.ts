@@ -3,12 +3,6 @@
 import prisma from "../../lib/prisma";
 import { error } from "console";
 
-type UserData = {
-  name: string;
-  email: string;
-  password: string;
-};
-
 export const sendUserData = async (
   name: string,
   email: string,

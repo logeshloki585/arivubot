@@ -1,6 +1,5 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/common/app-sidebar";
-import { useSession } from "next-auth/react";
 import { getUser } from "@/lib/auth";
 import HomeNavbar from "@/components/common/navbar/HomePageNavBar";
 

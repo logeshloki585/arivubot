@@ -1,20 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ChevronDown, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 
 const HomeNavbar = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   return (
     <div className="fixed w-full top-0 left-0 border-2">
       <nav className=" flex items-center justify-between p-4 bg-white px-10">

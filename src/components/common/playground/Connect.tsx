@@ -1,12 +1,4 @@
-import {
-  Check,
-  ChevronRight,
-  Code,
-  Copy,
-  ExternalLink,
-  Share,
-  Wrench,
-} from "lucide-react";
+import { Check, Copy, ExternalLink } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";

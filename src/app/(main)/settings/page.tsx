@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Camera, User } from "lucide-react";
+import { Camera } from "lucide-react";
 
 export default function Settings() {
   return (
