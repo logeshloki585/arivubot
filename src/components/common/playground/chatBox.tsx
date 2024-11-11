@@ -10,6 +10,8 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import currentUser, { getUserId } from "@/app/actions/user";
+import { useEffect, useState } from "react";
 
 type Message = {
   id: number;
@@ -30,6 +32,24 @@ export default function ChatBox() {
     },
   ]);
   const [isTyping, setIsTyping] = React.useState(false);
+
+  const [user, setUser] = useState<any>("");
+
+  useEffect(() => {
+    async function fxxn() {
+      try {
+        const res = await currentUser();
+        if (res?.user) {
+          const result = await getUserId(res.user);
+          console.log(result);
+          setUser(result?.id);
+        }
+      } catch (e: any) {
+        console.log(e);
+      }
+    }
+    fxxn();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,7 +82,7 @@ export default function ChatBox() {
         `${backgroundApi}/chatresponse`,
         {
           question: message,
-          userid: "673093f8eef41f1150f230b0",
+          userid: user.id,
           chatbotid: `${id}`,
         },
         {

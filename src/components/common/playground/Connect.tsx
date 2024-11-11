@@ -15,9 +15,10 @@ export default function Connect() {
 
   const scriptContent = `
 <script>
-  window.apiKey = '${id}';
+window.apiKey ='${id}';
 </script>
-<script src="http://localhost:5500/chatbot.min.js"></script>
+<script src="https://${window.location.hostname}/chatbot.min.js">
+</script>
 `;
 
   const handleCopy = () => {
@@ -78,7 +79,7 @@ export default function Connect() {
                         {`<script>
 window.apiKey ='${id}';
 </script>
-<script src="${clientApi}/chatbot.min.js">
+<script src="https://${window.location.hostname}/chatbot.min.js">
 </script>`}
                       </code>
                     </pre>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ChatBotCard from "./ChatbotCard";
+import currentUser, { getUserId } from "@/app/actions/user";
 
 type ChatbotData = {
   name: string;
@@ -12,18 +13,32 @@ type ChatbotData = {
 };
 
 export default function UserPage() {
+  const [user, setUser] = useState<any>("");
+
+  useEffect(() => {
+    async function fxxn() {
+      try {
+        const res = await currentUser();
+        if (res?.user) {
+          const result = await getUserId(res.user);
+          setUser(result);
+          if (result != undefined) {
+            const res2 = await GetChatbot(result?.id);
+            const result2 = Array.isArray(res2.res) ? res2.res : [res2.res];
+            setData(result2);
+          }
+        }
+      } catch (e: any) {
+        console.log(e);
+      }
+    }
+    fxxn();
+  }, []);
+
   const router = useRouter();
   const [data, setData] = useState<ChatbotData[]>([]);
 
-  useEffect(() => {
-    async function fx() {
-      const res = await GetChatbot("673093f8eef41f1150f230b0");
-      console.log(res);
-      const result = Array.isArray(res.res) ? res.res : [res.res];
-      setData(result);
-    }
-    fx();
-  }, []);
+  // useEffect(() => {}, []);
 
   const buttonClickHandler = () => {
     router.push("/create");

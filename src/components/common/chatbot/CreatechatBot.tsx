@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,7 @@ import { Loader2, Upload } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useRouter } from "next/navigation";
 import { ChatBotCreation } from "@/app/actions/Chatbot";
+import currentUser, { getUserId } from "@/app/actions/user";
 
 const CreateChatBot = () => {
   const [url, setUrl] = useState<string>("");
@@ -29,6 +30,24 @@ const CreateChatBot = () => {
   const [modelTrain, setModelTrain] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const router = useRouter();
+
+  const [user, setUser] = useState<any>("");
+
+  useEffect(() => {
+    async function fxxn() {
+      try {
+        const res = await currentUser();
+        if (res?.user) {
+          const result = await getUserId(res.user);
+          console.log(result);
+          setUser(result?.id);
+        }
+      } catch (e: any) {
+        console.log(e);
+      }
+    }
+    fxxn();
+  }, []);
 
   const backgroundApi = process.env.NEXT_PUBLIC_BACKEND_API;
 
@@ -84,7 +103,7 @@ const CreateChatBot = () => {
       const res = await ChatBotCreation(
         chatbotname,
         response.data.chatbotId,
-        "673093f8eef41f1150f230b0"
+        user.id
       );
 
       console.log(res);
