@@ -17,7 +17,7 @@ export default function Connect() {
 <script>
   window.apiKey = '${id}';
 </script>
-<script src="http://localhost:5500/chatbotq.min.js"></script>
+<script src="http://localhost:5500/chatbot.min.js"></script>
 `;
 
   const handleCopy = () => {
