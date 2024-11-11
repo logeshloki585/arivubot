@@ -9,13 +9,22 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String @db.VarChar(255)
-  email    String @unique @db.VarChar(255)
-  password String @db.VarChar(255)
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String    @unique
+  password String
+  chatbot  Chatbot[]
+}
+
+model Chatbot {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  chatbotId String @unique
+  userid    String @db.ObjectId
+  user      User   @relation(fields: [userid], references: [id])
 }
