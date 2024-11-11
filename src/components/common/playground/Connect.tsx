@@ -78,7 +78,7 @@ export default function Connect() {
                         {`<script>
 window.apiKey ='${id}';
 </script>
-<script src="${clientApi}/chatbotq.min.js">
+<script src="${clientApi}/chatbot.min.js">
 </script>`}
                       </code>
                     </pre>
