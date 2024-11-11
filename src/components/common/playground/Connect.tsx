@@ -44,7 +44,7 @@ export default function Connect() {
                 <CardTitle>Embed</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div>
+                {/* <div>
                   <h3 className="mb-2 font-semibold">www.chatbase.co</h3>
                   <p className="text-sm text-gray-500">
                     To add the chatbot anywhere on your website, add this iframe
@@ -66,7 +66,7 @@ export default function Connect() {
                     <Check className="mr-2 h-4 w-4" />
                     Copy iframe
                   </Button>
-                </div>
+                </div> */}
                 <div>
                   <p className="mb-2 text-sm text-gray-500">
                     To add a chat bubble to the bottom right of your website,
@@ -76,10 +76,10 @@ export default function Connect() {
                     <pre className="text-sm">
                       <code>
                         {`<script>
-                          window.apiKey = '${id}';
-                          </script>
-                          <script src="${clientApi}/chatbotq.min.js">
-                          </script>`}
+window.apiKey ='${id}';
+</script>
+<script src="${clientApi}/chatbotq.min.js">
+</script>`}
                       </code>
                     </pre>
                   </div>
