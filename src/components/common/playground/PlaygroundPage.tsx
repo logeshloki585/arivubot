@@ -20,10 +20,6 @@ export default function PlaygroundPage() {
   const [message, setMessage] = React.useState("");
 
   const backgroundApi = process.env.NEXT_PUBLIC_BACKEND_API;
-  useEffect(() => {
-    console.log(backgroundApi);
-    console.log(message);
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -32,6 +32,7 @@ const CreateChatBot = () => {
   const router = useRouter();
 
   const [user, setUser] = useState<any>("");
+  const [userid, setUserId] = useState<string>();
 
   useEffect(() => {
     async function fxxn() {
@@ -39,8 +40,8 @@ const CreateChatBot = () => {
         const res = await currentUser();
         if (res?.user) {
           const result = await getUserId(res.user);
-          console.log(result);
           setUser(result?.id);
+          setUserId(result?.id);
         }
       } catch (e: any) {
         console.log(e);
@@ -100,17 +101,17 @@ const CreateChatBot = () => {
         links: data,
       });
 
-      const res = await ChatBotCreation(
-        chatbotname,
-        response.data.chatbotId,
-        user.id
-      );
-
-      console.log(res);
+      if (userid) {
+        const res = await ChatBotCreation(
+          chatbotname,
+          response.data.chatbotId,
+          userid
+        );
+      }
 
       router.push(`playground/${response.data.chatbotId}`);
     } catch (error) {
-      console.error("Error training model:", error);
+      console.log("Error training model:", error);
       console.log("Error training the model. Please try again.");
     } finally {
       setModelTrain(false);

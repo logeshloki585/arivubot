@@ -34,6 +34,7 @@ export default function ChatBox() {
   const [isTyping, setIsTyping] = React.useState(false);
 
   const [user, setUser] = useState<any>("");
+  const [userid, setUserId] = useState<string>();
 
   useEffect(() => {
     async function fxxn() {
@@ -41,8 +42,8 @@ export default function ChatBox() {
         const res = await currentUser();
         if (res?.user) {
           const result = await getUserId(res.user);
-          console.log(result);
           setUser(result?.id);
+          setUserId(result?.id);
         }
       } catch (e: any) {
         console.log(e);
@@ -78,29 +79,33 @@ export default function ChatBox() {
     setChatMessages((prev) => [...prev, typingMessage]);
 
     try {
-      const response = await axios.post(
-        `${backgroundApi}/chatresponse`,
-        {
-          question: message,
-          userid: user.id,
-          chatbotid: `${id}`,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+      if (userid) {
+        const response = await axios.post(
+          `${backgroundApi}/chatresponse`,
+          {
+            question: message,
+            userid: userid,
+            chatbotid: `${id}`,
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      setChatMessages((prev) => prev.filter((msg) => msg.text !== "Typing..."));
+        setChatMessages((prev) =>
+          prev.filter((msg) => msg.text !== "Typing...")
+        );
 
-      const botReply: Message = {
-        id: chatMessages.length + 2,
-        text: response.data.data,
-        sender: "bot",
-      };
+        const botReply: Message = {
+          id: chatMessages.length + 2,
+          text: response.data.data,
+          sender: "bot",
+        };
 
-      setChatMessages((prev) => [...prev, botReply]);
+        setChatMessages((prev) => [...prev, botReply]);
+      }
     } catch (error) {
       console.log("Error fetching bot response:", error);
       setChatMessages((prev) =>

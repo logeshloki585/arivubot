@@ -12,7 +12,6 @@ export const NEXT_AUTH_CONFIG = {
       },
       async authorize(credentials: any) {
         try {
-          console.log(credentials);
           if (!credentials?.email || !credentials.password) {
             return null;
           }
