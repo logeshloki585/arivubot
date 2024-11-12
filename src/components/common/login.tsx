@@ -16,6 +16,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -86,10 +87,16 @@ export default function LoginPage() {
               />
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full">
               Sign In
             </Button>
+            <p className="text-sm text-center text-gray-600">
+              Dont have an Account?{" "}
+              <Link href="/signup" className="text-primary hover:underline">
+                Sign Up
+              </Link>
+            </p>
           </CardFooter>
         </form>
       </Card>

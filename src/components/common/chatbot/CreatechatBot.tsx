@@ -160,7 +160,11 @@ const CreateChatBot = () => {
                   id="websiteUrl"
                   placeholder="https://www.example.com"
                   value={url}
-                  onChange={(e) => setUrl(e.target.value)}
+                  onChange={(e) => {
+                    setUrl(e.target.value);
+                    setData([]);
+                    setIsFetching(false);
+                  }}
                 />
                 <div className="flex items-center space-x-2">
                   <Button
