@@ -1,12 +1,11 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { getUser } from "@/lib/auth";
+import Link from "next/link";
+import { LogoutButton } from "./LogoutButton";
 
-const HomeNavbar = () => {
-  const router = useRouter();
-  const { data: session } = useSession();
+const HomeNavbar = async () => {
+  const res = await getUser();
+
   return (
     <div className="fixed w-full top-0 left-0 border-2">
       <nav className=" flex items-center justify-between p-4 bg-white px-10">
@@ -15,18 +14,13 @@ const HomeNavbar = () => {
         </div>
 
         <div className="hidden lg:flex items-center gap-6">
-          <Button
-            variant="outline"
-            onClick={() => {
-              if (session == null) {
-                router.push("/login");
-              } else {
-                signOut({ callbackUrl: "/" });
-              }
-            }}
-          >
-            {session != null ? "Log Out" : "Log in"}
-          </Button>
+          {res != null ? (
+            <LogoutButton />
+          ) : (
+            <Link href="/login">
+              <Button variant="outline">Log in</Button>
+            </Link>
+          )}
         </div>
       </nav>
     </div>
