@@ -28,10 +28,10 @@ export default function PlaygroundPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="flex flex-col min-h-screen w-full px-10 h-auto">
       <Tabs defaultValue="playground">
-        <header className="border-b">
-          <div className="container flex items-center justify-between w-[1200px] mx-10 pr-10 py-4">
+        <header className="border-b ">
+          <div className="container flex items-center justify-between    py-4">
             <h1 className="text-2xl font-bold">Playground</h1>
             <TabsList>
               <TabsTrigger value="playground">Playground</TabsTrigger>

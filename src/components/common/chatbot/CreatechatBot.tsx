@@ -19,6 +19,7 @@ import { Progress } from "@/components/ui/progress";
 import { useRouter } from "next/navigation";
 import { ChatBotCreation } from "@/app/actions/Chatbot";
 import currentUser, { getUserId } from "@/app/actions/user";
+import ModelLoader from './ModelLoader';
 
 const CreateChatBot = () => {
   const [url, setUrl] = useState<string>("");
@@ -27,7 +28,7 @@ const CreateChatBot = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [eventSource, setEventSource] = useState<EventSource | null>(null);
   const [isTraining, setIsTraining] = useState<boolean>(false);
-  const [modelTrain, setModelTrain] = useState<boolean>(false);
+  const [modelTrain, setModelTrain] = useState<boolean>(true);
   const [progress, setProgress] = useState<number>(0);
   const router = useRouter();
 
@@ -53,6 +54,7 @@ const CreateChatBot = () => {
   const backgroundApi = process.env.NEXT_PUBLIC_BACKEND_API;
 
   const handleFetch = () => {
+    setData([])
     if (isFetching) {
       eventSource?.close();
       setEventSource(null);
@@ -92,11 +94,10 @@ const CreateChatBot = () => {
     setIsFetching(true);
   };
 
-  // Train Model
   const handleTrainModel = async () => {
     try {
       setModelTrain(true);
-
+      return
       const response = await axios.post(`${backgroundApi}/scrape`, {
         links: data,
       });
@@ -118,7 +119,6 @@ const CreateChatBot = () => {
     }
   };
 
-  // Delete Data Item
   const handleDelete = (index: number) => {
     setData((prevData) => prevData.filter((_, i) => i !== index));
   };
@@ -137,7 +137,6 @@ const CreateChatBot = () => {
           <TabsTrigger value="text">Text</TabsTrigger>
         </TabsList>
 
-        {/* Website Tab */}
         <TabsContent value="website" className="w-[600px] space-y-12">
           <Card>
             <CardHeader>
@@ -186,7 +185,6 @@ const CreateChatBot = () => {
                   )}
                 </div>
 
-                {/* Progress Bar */}
                 {isFetching && (
                   <div className="mt-4">
                     <Label>Fetching Progress</Label>
@@ -196,31 +194,39 @@ const CreateChatBot = () => {
                 )}
 
                 <div className="mt-6">
-                  <h3 className="text-lg font-semibold">Received Data:</h3>
-                  <ul className="flex flex-col mt-4 space-y-2 w-full max-h-96 overflow-y-auto">
-                    {data.map((item, index) => (
-                      <li
-                        key={index}
-                        className="bg-gray-50 px-4 py-2 rounded-md flex justify-between"
-                      >
-                        <span>{item}</span>
-                        <Button
-                          onClick={() => handleDelete(index)}
-                          variant="ghost"
-                          className="text-red-500"
-                        >
-                          Delete
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
+                  {!modelTrain ?
+                    <div>
+                      <h3 className="text-lg font-semibold">Received Data:</h3>
+                      <ul className="flex flex-col mt-4 space-y-2 w-full max-h-96 overflow-y-auto">
+                        {data.map((item, index) => (
+                          <li
+                            key={index}
+                            className="bg-gray-50 px-4 py-2 rounded-md flex justify-between"
+                          >
+                            <span>{item}</span>
+                            <Button
+                              onClick={() => handleDelete(index)}
+                              variant="ghost"
+                              className="text-red-500"
+                            >
+                              Delete
+                            </Button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    :
+                    <div className=' relative flex flex-col  space-y-2 w-full py-2 overflow-y-auto'>
+                      <h3 className="text-lg font-semibold text-center mb-4">Model Training</h3>
+                      <ModelLoader />
+                    </div>
+                  }
                 </div>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Files Tab */}
         <TabsContent value="files">
           <Card>
             <CardHeader>
@@ -244,7 +250,6 @@ const CreateChatBot = () => {
           </Card>
         </TabsContent>
 
-        {/* Text Tab */}
         <TabsContent value="text">
           <Card>
             <Textarea
