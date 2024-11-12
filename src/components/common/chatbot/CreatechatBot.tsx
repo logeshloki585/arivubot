@@ -19,7 +19,7 @@ import { Progress } from "@/components/ui/progress";
 import { useRouter } from "next/navigation";
 import { ChatBotCreation } from "@/app/actions/Chatbot";
 import currentUser, { getUserId } from "@/app/actions/user";
-import ModelLoader from './ModelLoader';
+import ModelLoader from "./ModelLoader";
 
 const CreateChatBot = () => {
   const [url, setUrl] = useState<string>("");
@@ -54,7 +54,7 @@ const CreateChatBot = () => {
   const backgroundApi = process.env.NEXT_PUBLIC_BACKEND_API;
 
   const handleFetch = () => {
-    setData([])
+    setData([]);
     if (isFetching) {
       eventSource?.close();
       setEventSource(null);
@@ -97,7 +97,6 @@ const CreateChatBot = () => {
   const handleTrainModel = async () => {
     try {
       setModelTrain(true);
-      return
       const response = await axios.post(`${backgroundApi}/scrape`, {
         links: data,
       });
@@ -110,7 +109,7 @@ const CreateChatBot = () => {
         );
       }
 
-      router.push(`playground/${response.data.chatbotId}`);
+      router.push(`/home/playground/${response.data.chatbotId}`);
     } catch (error) {
       console.log("Error training model:", error);
       console.log("Error training the model. Please try again.");
@@ -194,7 +193,7 @@ const CreateChatBot = () => {
                 )}
 
                 <div className="mt-6">
-                  {!modelTrain ?
+                  {!modelTrain ? (
                     <div>
                       <h3 className="text-lg font-semibold">Received Data:</h3>
                       <ul className="flex flex-col mt-4 space-y-2 w-full max-h-96 overflow-y-auto">
@@ -215,12 +214,14 @@ const CreateChatBot = () => {
                         ))}
                       </ul>
                     </div>
-                    :
-                    <div className=' relative flex flex-col  space-y-2 w-full py-2 overflow-y-auto'>
-                      <h3 className="text-lg font-semibold text-center mb-4">Model Training</h3>
+                  ) : (
+                    <div className=" relative flex flex-col  space-y-2 w-full py-2 overflow-y-auto">
+                      <h3 className="text-lg font-semibold text-center mb-4">
+                        Model Training
+                      </h3>
                       <ModelLoader />
                     </div>
-                  }
+                  )}
                 </div>
               </div>
             </CardContent>

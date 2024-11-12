@@ -16,7 +16,7 @@ export default function ChatBotCard({
   const router = useRouter();
 
   const buttonClickHandler = () => {
-    router.push(`/playground/${chatbotId}`);
+    router.push(`/home/playground/${chatbotId}`);
   };
 
   return (
