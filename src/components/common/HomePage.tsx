@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ChatBotCard from "./ChatbotCard";
 import currentUser, { getUserId } from "@/app/actions/user";
+import HomeNavbar from "./navbar/HomePageNavBar";
 
 type ChatbotData = {
   name: string;
@@ -46,6 +47,7 @@ export default function UserPage() {
 
   return (
     <>
+      <HomeNavbar />
       <div className="mt-[100px] mx-20 flex justify-between w-[1100px]">
         <h1 className=" text-4xl font-bold">ChatBots</h1>
         <Button onClick={buttonClickHandler}>New Chatbot</Button>
@@ -58,7 +60,9 @@ export default function UserPage() {
         ) : (
           <div className="ml-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
             {data.map((e: ChatbotData, index: number) => (
-              <ChatBotCard key={index} name={e.name} chatbotId={e.chatbotId} />
+              <div key={index} className="flex">
+                <ChatBotCard name={e.name} chatbotId={e.chatbotId} />
+              </div>
             ))}
           </div>
         )}

@@ -1,8 +1,20 @@
-import DummyComponent from "@/components/common/home";
-import UserPage from "@/components/common/HomePage";
-import { getUser } from "@/lib/auth";
+"use client";
 
-export default async function Home() {
-  const session = await getUser();
-  return <>{session ? <UserPage></UserPage> : <DummyComponent />}</>;
+import DummyComponent from "@/components/common/home";
+import { getUser } from "@/lib/auth";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    async function fx() {
+      const session = await getUser();
+      if (session) {
+        router.push("/home");
+      }
+    }
+    fx();
+  });
+  return <DummyComponent />;
 }
