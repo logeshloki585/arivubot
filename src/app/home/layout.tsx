@@ -4,6 +4,7 @@ import { getUser } from "@/lib/auth";
 import HomeNavbar from "@/components/common/navbar/HomePageNavBar";
 import LoginPage from "@/components/common/login";
 import SidebarContainer from "@/components/common/SidebarContainer";
+import NewSideBar from "@/components/common/SideBar";
 
 export default async function Layout({
   children,
@@ -18,8 +19,9 @@ export default async function Layout({
     return (
       <div className="dark:bg-boxdark-2 dark:text-bodydark">
         <div className="flex h-screen overflow-hidden">
-          <AppSidebar />
+          {/* <AppSidebar /> */}
           {/* <SidebarContainer /> */}
+          <NewSideBar  />
           <HomeNavbar />
           <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
             <main>
