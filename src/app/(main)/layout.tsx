@@ -1,26 +1,38 @@
+"use client";
+
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { getUser } from "@/lib/auth";
 import HomeNavbar from "@/components/common/navbar/HomePageNavBar";
 import AppSidebar from "@/components/common/app-sidebar";
+import { usePathname } from "next/navigation";
 
-export default async function Layout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getUser();
+  const session = getUser();
+  const pathname = usePathname();
+
   if (session == null) {
     return <main>{children}</main>;
-  } else {
+  }
+
+  if (pathname === "/") {
     return (
       <>
-        <HomeNavbar />
-
-        <SidebarProvider>
-          <AppSidebar />
-          <main className="w-full h-full ">{children}</main>
-        </SidebarProvider>
+        <main className="w-full h-full">{children}</main>
       </>
     );
   }
+
+  return (
+    <>
+      <HomeNavbar />
+      <SidebarProvider>
+        <AppSidebar />
+        <main className="w-full h-full">{children}</main>
+      </SidebarProvider>
+    </>
+  );
 }

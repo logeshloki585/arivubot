@@ -8,7 +8,7 @@ const HomeNavbar = () => {
   const router = useRouter();
   const { data: session } = useSession();
   return (
-    <div className="fixed w-full top-0 left-0">
+    <div className="fixed w-full top-0 left-0 bg-red-400">
       <nav className=" flex items-center justify-between p-4 bg-white px-10">
         <div className="flex items-center gap-2">
           {/* <div className="font-semibold text-xl">✷ ChatBot AI</div> */}
