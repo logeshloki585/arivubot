@@ -1,7 +1,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/common/app-sidebar";
 import { getUser } from "@/lib/auth";
 import HomeNavbar from "@/components/common/navbar/HomePageNavBar";
+import AppSidebar from "@/components/common/app-sidebar";
 
 export default async function Layout({
   children,
