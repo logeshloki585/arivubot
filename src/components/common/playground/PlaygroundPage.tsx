@@ -28,7 +28,7 @@ export default function PlaygroundPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full px-10 h-auto">
+    <div className="flex flex-col h-auto w-full px-10 h-auto ">
       <Tabs defaultValue="playground">
         <header className="border-b ">
           <div className="container flex items-center justify-between    py-4">

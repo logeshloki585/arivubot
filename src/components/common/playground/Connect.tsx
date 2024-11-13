@@ -31,7 +31,7 @@ window.apiKey ='${id}';
   const clientApi = process.env.NEXT_PUBLIC_FRONTEND_API;
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex ">
       <main className="flex-1 p-6">
         <Tabs defaultValue="embed">
           <TabsList>

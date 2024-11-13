@@ -28,7 +28,7 @@ const CreateChatBot = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [eventSource, setEventSource] = useState<EventSource | null>(null);
   const [isTraining, setIsTraining] = useState<boolean>(false);
-  const [modelTrain, setModelTrain] = useState<boolean>(true);
+  const [modelTrain, setModelTrain] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const router = useRouter();
 
@@ -113,8 +113,6 @@ const CreateChatBot = () => {
     } catch (error) {
       console.log("Error training model:", error);
       console.log("Error training the model. Please try again.");
-    } finally {
-      setModelTrain(false);
     }
   };
 

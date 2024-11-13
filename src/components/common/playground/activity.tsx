@@ -3,20 +3,32 @@ import { Filter, Download } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
-const fetchChatData = async (slug) => {
+interface Message {
+  objectId: string;
+  data: {
+    user: string;
+    bot: string;
+  };
+}
+
+interface Chat {
+  messages: Message[];
+}
+
+const fetchChatData = async (slug: string): Promise<Chat[]> => {
   const res = await fetch(`https://sr.adrig.co.in/chatlaps/chatactivity?chatbotid=${slug}`);
   const data = await res.json();
   return data;
 };
 
-export default function Activity() {
-  const { slug } = useParams();
+const Activity: React.FC = () => {
+  const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
 
-  const [chatData, setChatData] = React.useState([]);
-  const [selectedChat, setSelectedChat] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
+  const [chatData, setChatData] = React.useState<Chat[]>([]);
+  const [selectedChat, setSelectedChat] = React.useState<Chat | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -33,21 +45,21 @@ export default function Activity() {
     fetchData();
   }, [slug]);
 
-  const handleSelectChat = (objectId) => {
+  const handleSelectChat = (objectId: string) => {
     const chat = chatData.find((chat) => chat.messages.some((message) => message.objectId === objectId));
-    setSelectedChat(chat);
+    setSelectedChat(chat || null);
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  // if (loading) {
+  //   return <p>Loading...</p>;
+  // }
 
   if (error) {
     return <p className="text-red-500">{error}</p>;
   }
 
   return (
-    <div className="flex flex-col h-auto">
+    <div className="flex flex-col h-[60%] overflow-hidden">
       <div className="flex justify-between items-center p-4 border-b">
         <h1 className="text-xl font-semibold">Chat Logs</h1>
         <div className="flex gap-2">
@@ -61,8 +73,9 @@ export default function Activity() {
           </Button>
         </div>
       </div>
+
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-2/5 border-r overflow-y-auto p-4 space-y-4">
+        <div className="w-2/5 border-r overflow-y-auto p-4 space-y-4 h-full">
           {chatData.map((chat, index) => (
             <div
               key={index}
@@ -74,7 +87,7 @@ export default function Activity() {
           ))}
         </div>
 
-        <div className="w-3/5 overflow-y-auto p-4 space-y-4">
+        <div className="w-3/5 overflow-y-auto p-4 space-y-4 h-[60%]">
           {selectedChat ? (
             selectedChat.messages.map((message, index) => (
               <div key={index}>
@@ -93,4 +106,6 @@ export default function Activity() {
       </div>
     </div>
   );
-}
+};
+
+export default Activity;
