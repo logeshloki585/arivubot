@@ -21,7 +21,7 @@ export default async function Layout({
         <div className="flex h-screen overflow-hidden">
           {/* <AppSidebar /> */}
           {/* <SidebarContainer /> */}
-          <NewSideBar  />
+          <NewSideBar children={undefined} />
           <HomeNavbar />
           <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
             <main>

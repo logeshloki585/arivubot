@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react";
 import { Filter, Download } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";

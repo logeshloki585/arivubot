@@ -1,3 +1,4 @@
+"use client"
 import { Check, Copy, ExternalLink } from "lucide-react";
 import Image from "next/image";
 

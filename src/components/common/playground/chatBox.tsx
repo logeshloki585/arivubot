@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react";
 import { RefreshCcw, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -149,16 +150,14 @@ export default function ChatBox() {
         {chatMessages.map((msg) => (
           <div
             key={msg.id}
-            className={`flex ${
-              msg.sender === "user" ? "justify-end" : "justify-start"
-            }`}
+            className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"
+              }`}
           >
             <div
-              className={`${
-                msg.sender === "bot"
+              className={`${msg.sender === "bot"
                   ? "bg-blue-100 text-gray-700"
                   : "bg-black text-white"
-              } rounded-lg p-4 text-sm max-w-[70%] shadow-sm`}
+                } rounded-lg p-4 text-sm max-w-[70%] shadow-sm`}
             >
               {msg.text}
             </div>

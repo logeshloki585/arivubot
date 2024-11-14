@@ -8,6 +8,7 @@ import { PiPlugsConnectedFill } from "react-icons/pi";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import { useParams } from "next/navigation";
+import { useUserContext } from "@/context/userContext";
 
 interface Menu {
   title: string;
@@ -24,9 +25,10 @@ const NewSideBar: React.FC<NewSideBarProps> = (props) => {
   const [open, setOpen] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const { slug } = useParams<{ slug: string }>();
+  const { chatbotId } = useUserContext();
 
   const Menus: Menu[] = [
-    { title: "Play Area", path: "/home/playground", icon: <BsChatDots /> },
+    { title: "Play Area", path: "/space/bot/playarea", icon: <BsChatDots /> },
     { title: "Activity", path: "/home/playground", icon: <PiChatsCircleFill /> },
     { title: "Leads", path: "/home/playground", icon: <FaArrowTrendUp /> },
     { title: "Connect", path: "/home/playground", icon: <PiPlugsConnectedFill />, gap: true },
@@ -34,6 +36,7 @@ const NewSideBar: React.FC<NewSideBarProps> = (props) => {
     { title: "Settings", path: "/home/settings", icon: <IoMdSettings />, gap: true },
   ];
 
+  console.log("----------------- ", chatbotId)
 
   return (
     <div className="flex z-50">
@@ -59,7 +62,7 @@ const NewSideBar: React.FC<NewSideBarProps> = (props) => {
               className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-sm items-center gap-x-4 ${menu.gap ? "border-t pt-6 mt-6" : "mt-2"}`}
             >
               <Link
-                href={`${menu.path}/${slug}`}
+                href={`${menu.path}/${chatbotId}`}
                 className={`flex items-center gap-x-4 w-full p-2 rounded-md duration-200 text-black`}
               >
                 <span className="text-xl">{menu.icon}</span>

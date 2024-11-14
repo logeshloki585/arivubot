@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useUserContext } from "@/context/userContext";
 
 export default function ChatBotCard({
   name,
@@ -14,9 +15,11 @@ export default function ChatBotCard({
   chatbotId: string;
 }) {
   const router = useRouter();
+  const { setChatbot } = useUserContext();
 
   const buttonClickHandler = () => {
-    router.push(`/home/playground/${chatbotId}`);
+    setChatbot(chatbotId);
+    router.push(`/space/bot/playarea/${chatbotId}`);
   };
 
   return (
