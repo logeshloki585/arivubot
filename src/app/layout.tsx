@@ -1,8 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-const inter = Inter({ subsets: ["latin"] });
 import { Providers } from "./provider";
 import { Toaster } from "../components/ui/toaster";
+
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Next App",
@@ -12,7 +14,22 @@ export const metadata = {
 export default function RootLayout({ children }: any) {
   return (
     <html lang="en">
-      <body className={`${inter.className} `}>
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.apiKey = 'bb5b35f0-119e-4408-a5ef-4da4c967d9b1';`,
+          }}
+        />
+
+        <script src="https://arivubot.tipflow.pro/chatbot.min.js"></script>
+      </head>
+
+      <body className={`${inter.className}`}>
         <Toaster />
         <Providers>{children}</Providers>
       </body>

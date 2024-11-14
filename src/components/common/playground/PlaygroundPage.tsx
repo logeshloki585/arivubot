@@ -23,7 +23,6 @@ export default function PlaygroundPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle message submission
     setMessage("");
   };
 

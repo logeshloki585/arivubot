@@ -7,6 +7,7 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 import { PiPlugsConnectedFill } from "react-icons/pi";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
+import { useParams } from "next/navigation";
 
 interface Menu {
   title: string;
@@ -22,13 +23,14 @@ interface NewSideBarProps {
 const NewSideBar: React.FC<NewSideBarProps> = (props) => {
   const [open, setOpen] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
+  const { slug } = useParams<{ slug: string }>();
 
   const Menus: Menu[] = [
-    { title: "Play Area", path: "/play-area", icon: <BsChatDots /> },
-    { title: "Activity", path: "/activity", icon: <PiChatsCircleFill /> },
-    { title: "Leads", path: "/leads", icon: <FaArrowTrendUp /> },
-    { title: "Connect", path: "/home/connect", icon: <PiPlugsConnectedFill />, gap: true },
-    { title: "Integration", path: "/integration", icon: <GiSettingsKnobs /> },
+    { title: "Play Area", path: "/home/playground", icon: <BsChatDots /> },
+    { title: "Activity", path: "/home/playground", icon: <PiChatsCircleFill /> },
+    { title: "Leads", path: "/home/playground", icon: <FaArrowTrendUp /> },
+    { title: "Connect", path: "/home/playground", icon: <PiPlugsConnectedFill />, gap: true },
+    { title: "Integration", path: "/home/playground", icon: <GiSettingsKnobs /> },
     { title: "Settings", path: "/home/settings", icon: <IoMdSettings />, gap: true },
   ];
 
@@ -57,7 +59,7 @@ const NewSideBar: React.FC<NewSideBarProps> = (props) => {
               className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-sm items-center gap-x-4 ${menu.gap ? "border-t pt-6 mt-6" : "mt-2"}`}
             >
               <Link
-                href={menu.path}
+                href={`${menu.path}/${slug}`}
                 className={`flex items-center gap-x-4 w-full p-2 rounded-md duration-200 text-black`}
               >
                 <span className="text-xl">{menu.icon}</span>
