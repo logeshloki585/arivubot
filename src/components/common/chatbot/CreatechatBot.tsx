@@ -131,11 +131,16 @@ const CreateChatBot = () => {
           },
         }
       );
+      setUrl(normalizeUrl(url));
+
       console.log(response.data.organic_results.map(result => result.url))
-      const links = response.data.organic_results.map(result => result.url).filter(url =>
-        url.startsWith(normalizeUrl(url)) &&
-        !url.startsWith(`${normalizeUrl(url)}/blog/`)
-      );
+      const links = response.data.organic_results.map(result => result.url).filter(newLink => {
+        const normalizedUrl = normalizeUrl(newLink);
+        return (
+          normalizedUrl.startsWith(url) &&
+          !normalizedUrl.startsWith(`${url}/blog`)
+        );
+      });
       setData(links);
       setIsTraining(true);
     } catch (error) {
