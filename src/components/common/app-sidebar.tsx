@@ -6,7 +6,7 @@ import { Home, Settings } from "lucide-react";
 
 // Define menu items
 const menuItems = [
-  { title: "Home", url: "/home", icon: Home },
+  { title: "Home", url: "/space", icon: Home },
   { title: "Settings", url: "/home/settings", icon: Settings },
 ];
 

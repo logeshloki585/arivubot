@@ -40,7 +40,7 @@ export default function LoginPage() {
     });
 
     if (res?.status == 200) {
-      router.push("/home");
+      router.push("/space");
     } else {
       setError("Failed");
     }
