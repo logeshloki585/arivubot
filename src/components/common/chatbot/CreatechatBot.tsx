@@ -129,8 +129,11 @@ const CreateChatBot = () => {
           },
         }
       );
-      const links = response.data.organic_results.map(result => result.url);
-      console.log(links);
+      const links = response.data.organic_results.map(result => result.url).filter(url =>
+        url.startsWith('https://www.adrig.co.in') &&
+        !url.startsWith('https://www.adrig.co.in/blog/')
+      );
+
       setData(links);
       setIsTraining(true);
     } catch (error) {
