@@ -140,10 +140,6 @@ const CreateChatBot = () => {
     }
   };
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
   const handleChange = (event: any) => {
     if (event.target.type === "file") {
       setFile(event.target.files[0]);
