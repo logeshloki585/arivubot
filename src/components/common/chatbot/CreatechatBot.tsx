@@ -132,13 +132,16 @@ const CreateChatBot = () => {
         }
       );
 
-      const links = response.data.organic_results.map(result => result.url).filter(newLink => {
-        const normalizedUrl = normalizeUrl(newLink);
-        return (
-          normalizedUrl.startsWith(normalizeUrl(url)) &&
-          !normalizedUrl.startsWith(`${normalizeUrl(url)}/blog`)
-        );
-      });
+      const normalizedBaseUrl = normalizeUrl(url);
+      const links = response.data.organic_results
+        .map((result) => normalizeUrl(result.url))
+        .filter((normalizedUrl) => {
+          return (
+            normalizedUrl.startsWith(normalizedBaseUrl) &&
+            !normalizedUrl.startsWith(`${normalizedBaseUrl}/blog`)
+          );
+        });
+
       setData(links);
       setIsTraining(true);
     } catch (error) {
