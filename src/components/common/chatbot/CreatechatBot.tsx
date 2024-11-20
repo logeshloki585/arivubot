@@ -97,7 +97,10 @@ const CreateChatBot = () => {
   //   setEventSource(newEventSource);
   //   setIsFetching(true);
   // };
-
+  function normalizeUrl(url) {
+    // Remove trailing slash if it exists
+    return url.endsWith('/') ? url.slice(0, -1) : url;
+  }
 
   interface OrganicResult {
     url: string;
@@ -130,10 +133,9 @@ const CreateChatBot = () => {
         }
       );
       const links = response.data.organic_results.map(result => result.url).filter(url =>
-        url.startsWith('https://www.adrig.co.in') &&
-        !url.startsWith('https://www.adrig.co.in/blog/')
+        url.startsWith(normalizeUrl(url)) &&
+        !url.startsWith(`${normalizeUrl(url)}/blog/`)
       );
-
       setData(links);
       setIsTraining(true);
     } catch (error) {
