@@ -42,7 +42,7 @@ export default function UserPage() {
   // useEffect(() => {}, []);
 
   const buttonClickHandler = () => {
-    router.push("/home/create");
+    router.push("/space/create");
   };
 
   return (

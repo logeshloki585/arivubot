@@ -109,7 +109,7 @@ const CreateChatBot = () => {
         );
       }
 
-      router.push(`/home/playground/${response.data.chatbotId}`);
+      router.push(`/space/bot/playarea/${response.data.chatbotId}`);
     } catch (error) {
       console.log("Error training model:", error);
       console.log("Error training the model. Please try again.");
