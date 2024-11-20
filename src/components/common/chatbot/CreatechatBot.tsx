@@ -135,12 +135,10 @@ const CreateChatBot = () => {
       const normalizedBaseUrl = normalizeUrl(url);
       const links = response.data.organic_results
         .map((result) => normalizeUrl(result.url))
-        .filter((normalizedUrl) => {
-          return (
-            normalizedUrl.startsWith(normalizedBaseUrl) &&
-            !normalizedUrl.startsWith(`${normalizedBaseUrl}/blog`)
-          );
-        });
+        .filter(url =>
+          url.startsWith(normalizedBaseUrl) &&
+          !url.startsWith(`${normalizedBaseUrl}/blog/`)
+        );
 
       setData(links);
       setIsTraining(true);
