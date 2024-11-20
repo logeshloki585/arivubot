@@ -97,8 +97,7 @@ const CreateChatBot = () => {
   //   setEventSource(newEventSource);
   //   setIsFetching(true);
   // };
-  function normalizeUrl(url) {
-    // Remove trailing slash if it exists
+  function normalizeUrl(url: string) {
     return url.endsWith('/') ? url.slice(0, -1) : url;
   }
 
