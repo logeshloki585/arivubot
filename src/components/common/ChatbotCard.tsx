@@ -23,12 +23,12 @@ export default function ChatBotCard({
   };
 
   return (
-    <Card className="group relative w-[300px] min-h-[200px] overflow-hidden border-none bg-gradient-to-br from-white to-gray-50 shadow-2xl">
+    <Card className="group relative w-[300px] min-h-auto overflow-hidden border-none bg-gradient-to-br from-white to-gray-50 shadow-2xl">
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
       <CardHeader className="text-center">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-blue-500 p-4 shadow-lg">
+        {/* <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-black p-4 shadow-lg">
           <MessageSquare className="h-8 w-8 text-white" />
-        </div>
+        </div> */}
         <h3 className="bg-gradient-to-br from-gray-900 to-gray-600 bg-clip-text text-xl font-bold text-transparent">
           {name}
         </h3>
@@ -38,7 +38,7 @@ export default function ChatBotCard({
           onClick={buttonClickHandler}
           size="sm"
           className={cn(
-            "bg-gradient-to-br from-purple-500 to-blue-500",
+            "boder-black",
             "transition-transform duration-500 hover:scale-105"
           )}
         >
