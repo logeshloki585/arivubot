@@ -9,6 +9,7 @@ import { GiSettingsKnobs } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import { useParams } from "next/navigation";
 import { useUserContext } from "@/context/userContext";
+import Loho from './Vector.jpg';
 
 interface Menu {
   title: string;
@@ -48,8 +49,9 @@ const NewSideBar: React.FC<NewSideBarProps> = (props) => {
         />
         <div className="flex gap-x-4 items-center">
           <img
-            src="https://raw.githubusercontent.com/Sridhar-C-25/sidebar_reactTailwind/refs/heads/main/src/assets/logo.png"
-            className={`cursor-pointer duration-500 ${open && "rotate-[360deg]"}`}
+            src={typeof Loho === 'string' ? Loho : Loho.src} // Handles StaticImageData or string
+            className={`h-8 ml-0 cursor-pointer duration-500 ${open && "rotate-[360deg] ml-2"}`}
+            alt="Description" // Always include an alt attribute for accessibility
           />
           <h1 className={`text-white origin-left font-medium text-xl duration-200 ${!open && "scale-0"}`}>
             Designer
@@ -63,7 +65,7 @@ const NewSideBar: React.FC<NewSideBarProps> = (props) => {
             >
               <Link
                 href={`${menu.path}/${chatbotId}`}
-                className={`flex items-center gap-x-4 w-full p-2 rounded-md duration-200 text-black`}
+                className={`flex items-center gap-x-4 w-full p-1 rounded-md duration-200 text-black`}
               >
                 <span className="text-xl">{menu.icon}</span>
                 <span className={`${!open && "hidden"} origin-left duration-200`}>{menu.title}</span>
