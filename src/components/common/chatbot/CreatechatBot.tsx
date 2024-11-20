@@ -32,6 +32,10 @@ const CreateChatBot = () => {
   const [progress, setProgress] = useState<number>(0);
   const router = useRouter();
 
+  const [inputType, setInputType] = useState("");
+  const [textContent, setTextContent] = useState("");
+  const [file, setFile] = useState(null);
+
   const [user, setUser] = useState<any>("");
   const [userid, setUserId] = useState<string>();
 
@@ -94,6 +98,16 @@ const CreateChatBot = () => {
     setIsFetching(true);
   };
 
+  const handleChange = (event) => {
+    if (event.target.type === "file") {
+      setFile(event.target.files[0]);
+      setInputType("file");
+    } else if (event.target.tagName === "TEXTAREA") {
+      setTextContent(event.target.value);
+      setInputType("text");
+    }
+  };
+
   const handleTrainModel = async () => {
     try {
       setModelTrain(true);
@@ -120,9 +134,41 @@ const CreateChatBot = () => {
     setData((prevData) => prevData.filter((_, i) => i !== index));
   };
 
-  const chatbotCreationHandler = () => {
-    alert("Chatbot creation initiated!");
+
+  const chatbotCreationHandler = async () => {
+    try {
+      let response;
+      if (inputType === "text" && textContent.trim() !== "") {
+        response = await axios.post(`${backgroundApi}/texttrain`, {
+          links: textContent,
+        });
+      } else if (inputType === "file" && file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        response = await axios.post(`${backgroundApi}/upload`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      } else {
+        console.error("No valid input provided for chatbot creation.");
+        return;
+      }
+
+      if (userid) {
+        await ChatBotCreation(
+          chatbotname,
+          response.data.chatbotId,
+          userid
+        );
+      }
+
+      router.push(`/space/bot/playarea/${response.data.chatbotId}`);
+    } catch (error) {
+      console.error("Error training model:", error);
+      console.error("Error training the model. Please try again.");
+    }
   };
+
 
   return (
     <main className="flex-1 p-8 overflow-auto">
@@ -234,10 +280,13 @@ const CreateChatBot = () => {
             <CardContent>
               <div className="border-2 border-dashed rounded-lg p-8 text-center">
                 <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                <p className="mt-2">
-                  Drag & drop a file here or click to select
-                </p>
-                <Input id="fileInput" type="file" className="hidden" />
+                <p className="mt-2">Drag & drop a file here or click to select</p>
+                <Input
+                  id="fileInput"
+                  type="file"
+                  className="hidden"
+                  onChange={handleChange}
+                />
                 <Button variant="outline" className="mt-4">
                   Select File
                 </Button>
@@ -254,6 +303,7 @@ const CreateChatBot = () => {
             <Textarea
               className="w-full h-40"
               placeholder="Paste your text content here..."
+              onChange={handleChange}
             />
             <Button onClick={chatbotCreationHandler} className="mt-2 w-full">
               Create Chatbot
