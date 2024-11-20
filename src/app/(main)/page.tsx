@@ -11,7 +11,7 @@ export default function Home() {
     async function fx() {
       const session = await getUser();
       if (session) {
-        router.push("/home");
+        router.push("/space");
       }
     }
     fx();
