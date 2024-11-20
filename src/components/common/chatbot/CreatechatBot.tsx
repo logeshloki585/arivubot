@@ -98,7 +98,7 @@ const CreateChatBot = () => {
     setIsFetching(true);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     if (event.target.type === "file") {
       setFile(event.target.files[0]);
       setInputType("file");
@@ -134,7 +134,6 @@ const CreateChatBot = () => {
     setData((prevData) => prevData.filter((_, i) => i !== index));
   };
 
-
   const chatbotCreationHandler = async () => {
     try {
       let response;
@@ -155,11 +154,7 @@ const CreateChatBot = () => {
       }
 
       if (userid) {
-        await ChatBotCreation(
-          chatbotname,
-          response.data.chatbotId,
-          userid
-        );
+        await ChatBotCreation(chatbotname, response.data.chatbotId, userid);
       }
 
       router.push(`/space/bot/playarea/${response.data.chatbotId}`);
@@ -168,7 +163,6 @@ const CreateChatBot = () => {
       console.error("Error training the model. Please try again.");
     }
   };
-
 
   return (
     <main className="flex-1 p-8 overflow-auto">
@@ -280,7 +274,9 @@ const CreateChatBot = () => {
             <CardContent>
               <div className="border-2 border-dashed rounded-lg p-8 text-center">
                 <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                <p className="mt-2">Drag & drop a file here or click to select</p>
+                <p className="mt-2">
+                  Drag & drop a file here or click to select
+                </p>
                 <Input
                   id="fileInput"
                   type="file"

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import * as React from "react";
 import { Filter, Download } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -17,7 +17,9 @@ interface Chat {
 }
 
 const fetchChatData = async (slug: string): Promise<Chat[]> => {
-  const res = await fetch(`https://sr.adrig.co.in/chatlaps/chatactivity?chatbotid=${slug}`);
+  const res = await fetch(
+    `https://sr.adrig.co.in/chatlaps/chatactivity?chatbotid=${slug}`
+  );
   const data = await res.json();
   return data;
 };
@@ -47,7 +49,9 @@ const Activity: React.FC = () => {
   }, [slug]);
 
   const handleSelectChat = (objectId: string) => {
-    const chat = chatData.find((chat) => chat.messages.some((message) => message.objectId === objectId));
+    const chat = chatData.find((chat) =>
+      chat.messages.some((message) => message.objectId === objectId)
+    );
     setSelectedChat(chat || null);
   };
 
@@ -95,13 +99,15 @@ const Activity: React.FC = () => {
                 <div className="bg-gray-100 p-3 mb-2 w-fit max-w-96 rounded-r-lg rounded-t-lg">
                   <p className="text-sm">{message.data.user}</p>
                 </div>
-                <div className="bg-black text-white p-2 rounded-l-lg rounded-t-lg p-4 w-fit ml-auto max-w-96">
+                <div className="bg-black text-white rounded-l-lg rounded-t-lg p-4 w-fit ml-auto max-w-96">
                   <p className="text-sm">{message.data.bot}</p>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-sm text-gray-500">Select a chat to view messages.</p>
+            <p className="text-sm text-gray-500">
+              Select a chat to view messages.
+            </p>
           )}
         </div>
       </div>
