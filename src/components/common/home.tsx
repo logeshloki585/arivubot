@@ -1,83 +1,73 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 import Navbar from "./navbar/Navbar";
-import { Star } from "lucide-react";
+import { ArrowRight, PartyPopper } from "lucide-react";
+import ChooseLLM from "./ChooseLLM";
+import HowItWorks from "./HowitWorks";
+import Footer from "./footer";
+import Features from "./Features";
+import { Cover } from "../ui/cover";
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <main className="container mx-auto px-12 py-12 grid lg:grid-cols-2 gap-12 items-start">
-        <div className="space-y-8">
-          <div className="inline-flex items-center rounded-full border bg-white px-4 py-2">
-            <span className="text-sm">Announcing our Ai powered ChatBot →</span>
+      <main className="container mx-auto">
+        <div className="flex flex-col items-center  bg-white text-center px-4 pt-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-200 rounded-full text-white text-sm mb-6">
+            <span className="bg-zinc-900 rounded-lg px-[0.5rem] py-[1px]">
+              New
+            </span>
+            <span className="w-1 h-1 bg-red-500 rounded-full" />
+            <span className="text-black flex mt-1">
+              AI Automation is now live <PartyPopper className="ml-1" />
+            </span>
           </div>
-          <h1 className="text-5xl font-bold leading-tight">
-            The natural language interface for customer Interaction
-          </h1>
-
-          <p className="text-xl text-gray-600">
-            AI powered analysis across all your customer data. Sync outputs to
-            other systems.
+          <h1 className="text-4xl sm:text-8xl font-semibold mb-4">Customize</h1>
+          <h2 className="text-4xl sm:text-8xl font-semibold mb-6">
+            <Cover>LLM for your business</Cover>
+          </h2>
+          <p className="text-zinc-600 max-w-xl mb-6">
+            Build a custom GPT, embed it in your website and let it handle
+            customer support, lead generation, engage with your users, and more.
           </p>
-
-          <div className="flex items-center gap-2">
-            <div className="flex">
-              {[1, 2, 3, 4, 5].map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-current text-black" />
-              ))}
-            </div>
-            <span className="text-sm font-medium">4.8 rating →</span>
-          </div>
-
-          <div className="max-w-md space-y-4">
-            <div className="flex gap-2">
-              <Input placeholder="Your work email" className="flex-1" />
-              <Button className="bg-[#C1F664] text-black hover:bg-[#b1e654]">
-                Get started
-              </Button>
-            </div>
-            <p className="text-sm text-gray-500">
-              Onboarding takes less than 2 Minutes
-            </p>
-          </div>
+          <Button size="lg" className="mb-2 bg-[#1171BA]">
+            Build Your Chatbot <ArrowRight />
+          </Button>
+          <p className="text-sm text-zinc-500 mb-12">No credit card required</p>
         </div>
 
-        <div className="relative">
-          <Card className="p-6 space-y-4 bg-white shadow-lg rounded-lg">
-            <div className="bg-[#1B3409] text-white p-4 rounded-lg flex items-center gap-2">
-              <span className="text-[#C1F664] font-bold">+</span>
-              How many web visitors have we had the past 4 weeks?
-            </div>
-
-            <table className="w-full">
-              <thead>
-                <tr className="text-left">
-                  <th className="py-2 text-gray-600">Week ending</th>
-                  <th className="py-2 text-gray-600">Web visitors</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { date: "2023-11-05", visitors: "125,000" },
-                  { date: "2023-11-12", visitors: "152,000" },
-                  { date: "2023-11-19", visitors: "181,000" },
-                  { date: "2023-11-26", visitors: "200,000" },
-                ].map((row) => (
-                  <tr key={row.date} className="border-t">
-                    <td className="py-2">{row.date}</td>
-                    <td className="py-2 font-medium">{row.visitors}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Card>
+        <div
+          className="relative flex justify-center items-center py-10 "
+          style={{
+            backgroundImage: "url('/svg/Grid.svg')",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <img
+            src="/ChatGPT.png"
+            alt="ChatGPT Illustration"
+            className="max-w-full"
+            style={{ width: "80%", maxWidth: "800px" }}
+          />
+        </div>
+        <div>
+          <ChooseLLM />
+          <HowItWorks />
+          <Features />
+          <div className="my-[80px] mx-auto max-w-3xl">
+            <img src="/group.png" alt="group" />
+          </div>
+          <div className="my-[80px] mx-auto max-w-6xl">
+            <img src="/testimonials.png" alt="reviews" />
+          </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
