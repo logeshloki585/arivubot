@@ -97,50 +97,53 @@ const CreateChatBot = () => {
   //   setEventSource(newEventSource);
   //   setIsFetching(true);
   // };
-  function normalizeUrl(url: string) {
-    return url.endsWith('/') ? url.slice(0, -1) : url;
+  function normalizeUrl(url: string): string {
+    return url.endsWith("/") ? url.slice(0, -1) : url;
   }
 
-  interface OrganicResult {
-    url: string;
-  }
+  function processLinks(response: any[], baseUrl: string): string[] {
+    const baseDomain = new URL(baseUrl).origin;
+    const processedLinks = new Set<string>();
 
-  interface ApiResponse {
-    organic_results: OrganicResult[];
+    response.forEach((link) => {
+      try {
+        if (!link || typeof link !== "string" || link.trim() === "") return;
+        if (link.startsWith("http")) {
+          const linkDomain = new URL(link).origin;
+          if (linkDomain === baseDomain) processedLinks.add(new URL(link).href);
+        } else if (link.startsWith("/") && !link.startsWith("//")) {
+          processedLinks.add(`${baseDomain}${link}`);
+        }
+      } catch (error) {
+        console.error(`Invalid URL skipped: ${link}`);
+      }
+    });
+
+    return Array.from(processedLinks);
   }
 
   const handleFetch = async () => {
     setData([]);
-    if (isFetching) {
-      setIsFetching(false);
-      return;
-    }
-
-    if (!url) return;
     setIsFetching(true);
 
     try {
-      const response = await axios.get<ApiResponse>(
-        "https://app.scrapingbee.com/api/v1/store/google",
-        {
-          params: {
-            api_key:
-              "5X99ITOZIGTRC1IFTUUD8TCS4WVIUXBO373TV4T7NXOCHM1SQCX5SO72M00F5X5GKHWUCHOXJWUSWRP9",
-            search: url,
-            language: "en",
-          },
-        }
-      );
+      if (!url) throw new Error("URL is required");
 
-      const normalizedBaseUrl = normalizeUrl(url);
-      const links = response.data.organic_results
-        .map((result) => normalizeUrl(result.url))
-        .filter(url =>
-          url.startsWith(normalizedBaseUrl) &&
-          !url.startsWith(`${normalizedBaseUrl}/blog/`)
-        );
+      const response = await axios.get("https://app.scrapingbee.com/api/v1/", {
+        params: {
+          api_key: "5X99ITOZIGTRC1IFTUUD8TCS4WVIUXBO373TV4T7NXOCHM1SQCX5SO72M00F5X5GKHWUCHOXJWUSWRP9",
+          url: url,
+          wait_browser: "load",
+          extract_rules: '{"all_links":{"selector":"a@href","type":"list"}}',
+        },
+      });
 
-      setData(links);
+      if (!response.data || !response.data.all_links) {
+        throw new Error("Invalid response format: Missing all_links");
+      }
+
+      const finalLinks = processLinks(response.data.all_links, normalizeUrl(url));
+      setData(finalLinks);
       setIsTraining(true);
     } catch (error) {
       console.error("Error fetching data:", error);
