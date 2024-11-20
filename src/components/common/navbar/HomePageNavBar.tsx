@@ -7,9 +7,10 @@ import { signOut, useSession } from "next-auth/react";
 const HomeNavbar = () => {
   const router = useRouter();
   const { data: session } = useSession();
+
   return (
-    <div className="fixed w-full top-0 left-0 bg-red-400">
-      <nav className=" flex items-center justify-between p-4 bg-white px-10">
+    <div className="fixed  top-[10px] left-[1380px] bg-red-400 z-50">
+      <nav className="flex items-center justify-between p-4 bg-white px-10 z-50">
         <div className="flex items-center gap-2">
           {/* <div className="font-semibold text-xl">✷ ChatBot AI</div> */}
         </div>
@@ -18,14 +19,10 @@ const HomeNavbar = () => {
           <Button
             variant="outline"
             onClick={() => {
-              if (session == null) {
-                router.push("/login");
-              } else {
-                signOut({ callbackUrl: "/" });
-              }
+              signOut({ callbackUrl: "/" });
             }}
           >
-            {session != null ? "Log Out" : "Log in"}
+            Log Out
           </Button>
         </div>
       </nav>

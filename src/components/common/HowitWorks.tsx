@@ -51,7 +51,7 @@ export default function HowItWorks() {
         <div className="grid md:grid-cols-2 gap-2 mx-auto max-w-[1000px]">
           {/* Import Data Section */}
           {steps.map((step, index) => (
-            <div className="bg-gray-50 rounded-lg p-6 mb-2">
+            <div key={index} className="bg-gray-50 rounded-lg p-6 mb-2">
               <div className="mb-6">
                 <Image
                   src={step.image}
@@ -70,7 +70,7 @@ export default function HowItWorks() {
         <div className="grid md:grid-cols-3 gap-2  mx-auto max-w-[1000px]">
           {/* Import Data Section */}
           {steps2.map((step, index) => (
-            <div className="bg-gray-50 rounded-lg p-6">
+            <div key={index} className="bg-gray-50 rounded-lg p-6">
               <div className="aspect-video relative mb-6">
                 <Image
                   src={step.image}

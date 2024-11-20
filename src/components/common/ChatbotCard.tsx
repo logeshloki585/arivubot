@@ -19,7 +19,7 @@ export default function ChatBotCard({
 
   const buttonClickHandler = () => {
     setChatbot(chatbotId);
-    router.push(`/space/bot/playarea/${chatbotId}`);
+    router.push(`/space/playground/${chatbotId}`);
   };
 
   return (

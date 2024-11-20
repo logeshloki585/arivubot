@@ -15,24 +15,32 @@ import Activity from "./activity";
 import ChatBotSettings from "./settings";
 import Connect from "./Connect";
 import { useEffect } from "react";
+import { useUserContext } from "@/context/userContext";
 
 export default function PlaygroundPage() {
   const [message, setMessage] = React.useState("");
 
   const backgroundApi = process.env.NEXT_PUBLIC_BACKEND_API;
 
+  const { selectedTab } = useUserContext();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
   };
 
+  useEffect(() => {}, [selectedTab]);
+
   return (
-    <div className="flex flex-col h-auto w-full px-10 h-auto ">
-      <Tabs defaultValue="playground">
+    <div className="flex flex-col h-auto w-full px-10">
+      <Tabs
+        value={selectedTab}
+        onValueChange={(newValue) => console.log(newValue)}
+      >
         <header className="border-b ">
-          <div className="container flex items-center justify-between    py-4">
+          <div className="container flex items-center justify-between py-4">
             <h1 className="text-2xl font-bold">Playground</h1>
-            <TabsList>
+            <TabsList className="hidden">
               <TabsTrigger value="playground">Playground</TabsTrigger>
               <TabsTrigger value="activity">Activity</TabsTrigger>
               <TabsTrigger value="connect">Connect</TabsTrigger>
@@ -49,7 +57,7 @@ export default function PlaygroundPage() {
                     <ul className="p-3 w-[300px]">
                       <li>1. Keep your questions clear for better responses</li>
                       <li>
-                        2. Need help?Try asking specific questions or use
+                        2. Need help? Try asking specific questions or use
                         keywords
                       </li>
                       <li>3. Use quick reply buttons to get faster answers</li>

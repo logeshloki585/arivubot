@@ -7,9 +7,11 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 import { PiPlugsConnectedFill } from "react-icons/pi";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
-import { useParams } from "next/navigation";
 import { useUserContext } from "@/context/userContext";
+import { LayoutDashboardIcon, Settings } from "lucide-react";
+import { usePathname } from "next/navigation";
 import Loho from "./Vector.jpg";
+import { useRouter } from "next/navigation";
 
 interface Menu {
   title: string;
@@ -20,38 +22,67 @@ interface Menu {
 
 const NewSideBar = (props: any) => {
   const [open, setOpen] = useState(true);
-  const [isMounted, setIsMounted] = useState(false);
-  const { slug } = useParams<{ slug: string }>();
-  const { chatbotId } = useUserContext();
+  const { chatbotId, setSelectedValue } = useUserContext();
+  const pathname = usePathname(); // Get the current pathname
 
-  const Menus: Menu[] = [
-    { title: "Play Area", path: "/space/bot/playarea", icon: <BsChatDots /> },
+  const [menu, setMenu] = useState<Menu[]>([]);
+  const router = useRouter();
+
+  const PlaygroundMenus: Menu[] = [
+    { title: "Play Area", path: "playground", icon: <BsChatDots /> },
     {
       title: "Activity",
-      path: "/home/playground",
+      path: "activity",
       icon: <PiChatsCircleFill />,
     },
-    { title: "Leads", path: "/home/playground", icon: <FaArrowTrendUp /> },
+    // { title: "Leads", path: "/home/playground", icon: <FaArrowTrendUp /> },
     {
       title: "Connect",
-      path: "/home/playground",
+      path: "connect",
       icon: <PiPlugsConnectedFill />,
       gap: true,
     },
-    {
-      title: "Integration",
-      path: "/home/playground",
-      icon: <GiSettingsKnobs />,
-    },
+    // {
+    //   title: "Integration",
+    //   path: "/connect",
+    //   icon: <GiSettingsKnobs />,
+    // },
     {
       title: "Settings",
-      path: "/home/settings",
+      path: "settings",
       icon: <IoMdSettings />,
       gap: true,
     },
   ];
 
-  console.log("----------------- ", chatbotId);
+  const HomeMenus: Menu[] = [
+    { title: "Dashboard", path: "/space", icon: <LayoutDashboardIcon /> },
+    {
+      title: "Settings",
+      path: "/space/settings",
+      icon: <Settings />,
+    },
+  ];
+
+  // Update menu based on pathname change
+  useEffect(() => {
+    if (
+      pathname === "/space" ||
+      pathname === "/space/settings" ||
+      pathname === "/space/create"
+    ) {
+      setMenu(HomeMenus);
+    } else {
+      setMenu(PlaygroundMenus);
+    }
+  }, [pathname]);
+
+  const clickHandler = (value: string) => {
+    if (pathname !== "/space") {
+      const res = value;
+      setSelectedValue(res);
+    }
+  };
 
   return (
     <div className="flex z-50">
@@ -69,11 +100,14 @@ const NewSideBar = (props: any) => {
         />
         <div className="flex gap-x-4 items-center">
           <img
-            src={typeof Loho === "string" ? Loho : Loho.src} // Handles StaticImageData or string
+            onClick={() => {
+              router.push("/space");
+            }}
+            src={typeof Loho === "string" ? Loho : Loho.src}
             className={`h-8 ml-0 cursor-pointer duration-500 ${
               open && "rotate-[360deg] ml-2"
             }`}
-            alt="Description" // Always include an alt attribute for accessibility
+            alt="Logo"
           />
           <h1
             className={`text-white origin-left font-medium text-xl duration-200 ${
@@ -84,7 +118,7 @@ const NewSideBar = (props: any) => {
           </h1>
         </div>
         <ul className="pt-6">
-          {Menus.map((menu, index) => (
+          {menu.map((menu, index) => (
             <li
               key={index}
               className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-sm items-center gap-x-4 ${
@@ -92,8 +126,17 @@ const NewSideBar = (props: any) => {
               }`}
             >
               <Link
-                href={`${menu.path}/${chatbotId}`}
+                href={`${
+                  pathname === "/space" ||
+                  pathname === "/space/settings" ||
+                  pathname === "/space/create"
+                    ? menu.path
+                    : ""
+                }`}
                 className={`flex items-center gap-x-4 w-full p-1 rounded-md duration-200 text-black`}
+                onClick={() => {
+                  clickHandler(menu.path);
+                }}
               >
                 <span className="text-xl">{menu.icon}</span>
                 <span
