@@ -57,47 +57,93 @@ const CreateChatBot = () => {
 
   const backgroundApi = process.env.NEXT_PUBLIC_BACKEND_API;
 
-  const handleFetch = () => {
+  // const handleFetch = () => {
+  //   setData([]);
+  //   if (isFetching) {
+  //     eventSource?.close();
+  //     setEventSource(null);
+  //     setIsFetching(false);
+  //     setProgress(0);
+  //     return;
+  //   }
+
+  //   if (!url) return;
+
+  //   setProgress(0);
+
+  //   const newEventSource = new EventSource(
+  //     `${backgroundApi}/links?url=${encodeURIComponent(url)}`
+  //   );
+
+  //   newEventSource.onmessage = (event: MessageEvent) => {
+  //     const newItem = event.data;
+  //     setData((prevData) =>
+  //       prevData.includes(newItem) ? prevData : [...prevData, newItem]
+  //     );
+
+  //     setProgress((prevProgress) => {
+  //       const increment = Math.min(prevProgress + 2, 100);
+  //       return increment;
+  //     });
+  //   };
+
+  //   newEventSource.onerror = () => {
+  //     newEventSource.close();
+  //     setEventSource(null);
+  //     setIsFetching(false);
+  //     setIsTraining(true);
+  //     setProgress(100);
+  //   };
+  //   setEventSource(newEventSource);
+  //   setIsFetching(true);
+  // };
+
+
+  interface OrganicResult {
+    url: string;
+  }
+
+  interface ApiResponse {
+    organic_results: OrganicResult[];
+  }
+
+  const handleFetch = async () => {
     setData([]);
     if (isFetching) {
-      eventSource?.close();
-      setEventSource(null);
       setIsFetching(false);
-      setProgress(0);
       return;
     }
 
     if (!url) return;
-
-    setProgress(0);
-
-    const newEventSource = new EventSource(
-      `${backgroundApi}/links?url=${encodeURIComponent(url)}`
-    );
-
-    newEventSource.onmessage = (event: MessageEvent) => {
-      const newItem = event.data;
-      setData((prevData) =>
-        prevData.includes(newItem) ? prevData : [...prevData, newItem]
-      );
-
-      setProgress((prevProgress) => {
-        const increment = Math.min(prevProgress + 2, 100);
-        return increment;
-      });
-    };
-
-    newEventSource.onerror = () => {
-      newEventSource.close();
-      setEventSource(null);
-      setIsFetching(false);
-      setIsTraining(true);
-      setProgress(100);
-    };
-    setEventSource(newEventSource);
     setIsFetching(true);
+
+    try {
+      const response = await axios.get<ApiResponse>(
+        "https://app.scrapingbee.com/api/v1/store/google",
+        {
+          params: {
+            api_key:
+              "5X99ITOZIGTRC1IFTUUD8TCS4WVIUXBO373TV4T7NXOCHM1SQCX5SO72M00F5X5GKHWUCHOXJWUSWRP9",
+            search: url,
+            language: "en",
+          },
+        }
+      );
+      const links = response.data.organic_results.map(result => result.url);
+      console.log(links);
+      setData(links);
+      setIsTraining(true);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsFetching(false);
+    }
   };
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   const handleChange = (event: any) => {
     if (event.target.type === "file") {
       setFile(event.target.files[0]);
@@ -207,6 +253,7 @@ const CreateChatBot = () => {
                     onClick={handleFetch}
                     variant={isFetching ? "destructive" : "default"}
                   >
+                    {isFetching && <Loader2 className="animate-spin" />}
                     {isFetching ? "Stop Fetching" : "Fetch Data"}
                   </Button>
                   {isTraining && !modelTrain && (
@@ -221,14 +268,6 @@ const CreateChatBot = () => {
                     </Button>
                   )}
                 </div>
-
-                {isFetching && (
-                  <div className="mt-4">
-                    <Label>Fetching Progress</Label>
-                    <Progress value={progress} className="h-2 w-full" />
-                    <p className="text-sm mt-2">{progress}% completed</p>
-                  </div>
-                )}
 
                 <div className="mt-6">
                   {!modelTrain ? (
