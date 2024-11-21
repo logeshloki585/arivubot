@@ -101,6 +101,15 @@ const CreateChatBot = () => {
     return url.endsWith("/") ? url.slice(0, -1) : url;
   }
 
+  function extractBaseDomain(url: string): string {
+    try {
+      return new URL(url).origin;
+    } catch (error) {
+      console.error(`Invalid URL: ${url}`);
+      return "";
+    }
+  }
+
   function processLinks(response: any[], baseUrl: string): string[] {
     const baseDomain = new URL(baseUrl).origin;
     const processedLinks = new Set<string>();
@@ -108,11 +117,14 @@ const CreateChatBot = () => {
     response.forEach((link) => {
       try {
         if (!link || typeof link !== "string" || link.trim() === "") return;
+        if (link.startsWith("mailto:") || link.startsWith("tel:") || link === "#!") return;
         if (link.startsWith("http")) {
           const linkDomain = new URL(link).origin;
           if (linkDomain === baseDomain) processedLinks.add(new URL(link).href);
-        } else if (link.startsWith("/") && !link.startsWith("//")) {
+        } else if (link.startsWith("/")) {
           processedLinks.add(`${baseDomain}${link}`);
+        } else {
+          processedLinks.add(`${baseDomain}/${link}`);
         }
       } catch (error) {
         console.error(`Invalid URL skipped: ${link}`);
@@ -142,7 +154,7 @@ const CreateChatBot = () => {
         throw new Error("Invalid response format: Missing all_links");
       }
 
-      const finalLinks = processLinks(response.data.all_links, normalizeUrl(url));
+      const finalLinks = processLinks(response.data.all_links, extractBaseDomain(url));
       setData(finalLinks);
       setIsTraining(true);
     } catch (error) {
