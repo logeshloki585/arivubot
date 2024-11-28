@@ -22,9 +22,19 @@ model User {
 }
 
 model Chatbot {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  chatbotId String @unique
-  userid    String @db.ObjectId
-  user      User   @relation(fields: [userid], references: [id])
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  chatbotId         String   @unique
+  userid            String   @db.ObjectId
+  user              User     @relation(fields: [userid], references: [id])
+  fontSize          String   @default("text-lg")
+  fontColor         String   @default("#111827")
+  fontStyle         String   @default("font-sans")
+  desc              String   @default("")
+  headerAlign       String   @default("justify-center")
+  bgColor           String   @default("#fff")
+  innerButtonColor  String   @default("#000000")
+  outerButtonColor  String   @default("#000000")
+  userChatBg        String   @default("#d1fae5")
+  botChatBg         String   @default("#f1f0f0")
 }
