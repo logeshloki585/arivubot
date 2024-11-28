@@ -79,12 +79,16 @@ export default function Connect() {
                   </p>
                   <div className="rounded-md bg-gray-100 p-4">
                     <pre className="text-sm">
-                      <code>
+                      {/* <code>
                         {`<script>
 window.apiKey ='${id}';
 </script>
 <script src="https://${window.location.hostname}/chatbot.min.js">
 </script>`}
+                      </code> */}
+
+                      <code>
+                        {`<script src="https://${window.location.hostname}/arivubot.min.js?apiKey=${id}"></script>`}
                       </code>
                     </pre>
                   </div>
