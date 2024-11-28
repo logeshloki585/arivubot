@@ -20,23 +20,21 @@ export const ChatBotCreation = async (
 ) => {
   try {
 
-    // fontSize: 'text-lg',
-    // fontColor: '#111827',
-    // fontStyle: 'font-sans',
-    // name: '',
-    // desc: '',
-    // headerAlign: 'justify-center',
-    // bgColor: '#fff',
-    // innerButtonColor: '#000000',
-    // outerButtonColor: '#000000',
-    // userChatBg: '#d1fae5',
-    // botChatBg: '#f1f0f0'
-    // const res = prisma.chatbot.create({ data: { name, chatbotId, userid } });
     const res = prisma.chatbot.create({
       data: {
         name: name,
         chatbotId: chatbotId,
-        userid: userid
+        userid: userid,
+        fontSize: 'text-lg',
+        fontColor: '#111827',
+        fontStyle: 'font-sans',
+        desc: '',
+        headerAlign: 'justify-center',
+        bgColor: '#fff',
+        innerButtonColor: '#000000',
+        outerButtonColor: '#000000',
+        userChatBg: '#d1fae5',
+        botChatBg: '#f1f0f0',
       }
     });
 
