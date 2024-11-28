@@ -14,13 +14,15 @@ export default function Connect() {
 
   const [copied, setCopied] = useState(false);
 
-  const scriptContent = `
-<script>
-window.apiKey ='${id}';
-</script>
-<script src="https://${window.location.hostname}/chatbot.min.js">
-</script>
-`;
+//   const scriptContent = `
+// <script>
+// window.apiKey ='${id}';
+// </script>
+// <script src="https://${window.location.hostname}/chatbot.min.js">
+// </script>
+// `;
+
+const scriptContent  = `<script src="https://${window.location.hostname}/connector.min.js?apiKey=${id}"></script>`
 
   const handleCopy = () => {
     navigator.clipboard.writeText(scriptContent).then(() => {
