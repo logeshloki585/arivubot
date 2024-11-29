@@ -25,6 +25,7 @@ export const ChatBotCreation = async (
         name: name,
         chatbotId: chatbotId,
         userid: userid,
+        fontSize: 'text-lg',
         fontColor: '#111827',
         fontStyle: 'font-sans',
         desc: '',
