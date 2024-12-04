@@ -57,46 +57,48 @@ const CreateChatBot = () => {
 
   const backgroundApi = process.env.NEXT_PUBLIC_BACKEND_API;
 
-  // const handleFetch = () => {
-  //   setData([]);
-  //   if (isFetching) {
-  //     eventSource?.close();
-  //     setEventSource(null);
-  //     setIsFetching(false);
-  //     setProgress(0);
-  //     return;
-  //   }
+  const handleFetch = () => {
+    setData([]);
+    if (isFetching) {
+      eventSource?.close();
+      setEventSource(null);
+      setIsFetching(false);
+      setProgress(0);
+      return;
+    }
 
-  //   if (!url) return;
+    if (!url) return;
 
-  //   setProgress(0);
+    setProgress(0);
 
-  //   const newEventSource = new EventSource(
-  //     `${backgroundApi}/links?url=${encodeURIComponent(url)}`
-  //   );
+    const newEventSource = new EventSource(
+      `${backgroundApi}/links?url=${encodeURIComponent(url)}`
+    );
 
-  //   newEventSource.onmessage = (event: MessageEvent) => {
-  //     const newItem = event.data;
-  //     setData((prevData) =>
-  //       prevData.includes(newItem) ? prevData : [...prevData, newItem]
-  //     );
+    newEventSource.onmessage = (event: MessageEvent) => {
+      const newItem = event.data;
+      setData((prevData) =>
+        prevData.includes(newItem) ? prevData : [...prevData, newItem]
+      );
 
-  //     setProgress((prevProgress) => {
-  //       const increment = Math.min(prevProgress + 2, 100);
-  //       return increment;
-  //     });
-  //   };
+      setProgress((prevProgress) => {
+        const increment = Math.min(prevProgress + 2, 100);
+        return increment;
+      });
+    };
 
-  //   newEventSource.onerror = () => {
-  //     newEventSource.close();
-  //     setEventSource(null);
-  //     setIsFetching(false);
-  //     setIsTraining(true);
-  //     setProgress(100);
-  //   };
-  //   setEventSource(newEventSource);
-  //   setIsFetching(true);
-  // };
+    newEventSource.onerror = () => {
+      newEventSource.close();
+      setEventSource(null);
+      setIsFetching(false);
+      setIsTraining(true);
+      setProgress(100);
+    };
+    setEventSource(newEventSource);
+    setIsFetching(true);
+  };
+
+
   function normalizeUrl(url: string): string {
     return url.endsWith("/") ? url.slice(0, -1) : url;
   }
@@ -134,35 +136,35 @@ const CreateChatBot = () => {
     return Array.from(processedLinks);
   }
 
-  const handleFetch = async () => {
-    setData([]);
-    setIsFetching(true);
+  // const handleFetch = async () => {
+  //   setData([]);
+  //   setIsFetching(true);
 
-    try {
-      if (!url) throw new Error("URL is required");
+  //   try {
+  //     if (!url) throw new Error("URL is required");
 
-      const response = await axios.get("https://app.scrapingbee.com/api/v1/", {
-        params: {
-          api_key: "5X99ITOZIGTRC1IFTUUD8TCS4WVIUXBO373TV4T7NXOCHM1SQCX5SO72M00F5X5GKHWUCHOXJWUSWRP9",
-          url: url,
-          wait_browser: "load",
-          extract_rules: '{"all_links":{"selector":"a@href","type":"list"}}',
-        },
-      });
+  //     const response = await axios.get("https://app.scrapingbee.com/api/v1/", {
+  //       params: {
+  //         api_key: "5X99ITOZIGTRC1IFTUUD8TCS4WVIUXBO373TV4T7NXOCHM1SQCX5SO72M00F5X5GKHWUCHOXJWUSWRP9",
+  //         url: url,
+  //         wait_browser: "load",
+  //         extract_rules: '{"all_links":{"selector":"a@href","type":"list"}}',
+  //       },
+  //     });
 
-      if (!response.data || !response.data.all_links) {
-        throw new Error("Invalid response format: Missing all_links");
-      }
+  //     if (!response.data || !response.data.all_links) {
+  //       throw new Error("Invalid response format: Missing all_links");
+  //     }
 
-      const finalLinks = processLinks(response.data.all_links, extractBaseDomain(url));
-      setData(finalLinks);
-      setIsTraining(true);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsFetching(false);
-    }
-  };
+  //     const finalLinks = processLinks(response.data.all_links, extractBaseDomain(url));
+  //     setData(finalLinks);
+  //     setIsTraining(true);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setIsFetching(false);
+  //   }
+  // };
 
   const handleChange = (event: any) => {
     if (event.target.type === "file") {
