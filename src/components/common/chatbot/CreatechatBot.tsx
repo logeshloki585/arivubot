@@ -98,6 +98,74 @@ const CreateChatBot = () => {
     setIsFetching(true);
   };
 
+
+  function normalizeUrl(url: string): string {
+    return url.endsWith("/") ? url.slice(0, -1) : url;
+  }
+
+  function extractBaseDomain(url: string): string {
+    try {
+      return new URL(url).origin;
+    } catch (error) {
+      console.error(`Invalid URL: ${url}`);
+      return "";
+    }
+  }
+
+  function processLinks(response: any[], baseUrl: string): string[] {
+    const baseDomain = new URL(baseUrl).origin;
+    const processedLinks = new Set<string>();
+
+    response.forEach((link) => {
+      try {
+        if (!link || typeof link !== "string" || link.trim() === "") return;
+        if (link.startsWith("mailto:") || link.startsWith("tel:") || link === "#!") return;
+        if (link.startsWith("http")) {
+          const linkDomain = new URL(link).origin;
+          if (linkDomain === baseDomain) processedLinks.add(new URL(link).href);
+        } else if (link.startsWith("/")) {
+          processedLinks.add(`${baseDomain}${link}`);
+        } else {
+          processedLinks.add(`${baseDomain}/${link}`);
+        }
+      } catch (error) {
+        console.error(`Invalid URL skipped: ${link}`);
+      }
+    });
+
+    return Array.from(processedLinks);
+  }
+
+  // const handleFetch = async () => {
+  //   setData([]);
+  //   setIsFetching(true);
+
+  //   try {
+  //     if (!url) throw new Error("URL is required");
+
+  //     const response = await axios.get("https://app.scrapingbee.com/api/v1/", {
+  //       params: {
+  //         api_key: "5X99ITOZIGTRC1IFTUUD8TCS4WVIUXBO373TV4T7NXOCHM1SQCX5SO72M00F5X5GKHWUCHOXJWUSWRP9",
+  //         url: url,
+  //         wait_browser: "load",
+  //         extract_rules: '{"all_links":{"selector":"a@href","type":"list"}}',
+  //       },
+  //     });
+
+  //     if (!response.data || !response.data.all_links) {
+  //       throw new Error("Invalid response format: Missing all_links");
+  //     }
+
+  //     const finalLinks = processLinks(response.data.all_links, extractBaseDomain(url));
+  //     setData(finalLinks);
+  //     setIsTraining(true);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setIsFetching(false);
+  //   }
+  // };
+
   const handleChange = (event: any) => {
     if (event.target.type === "file") {
       setFile(event.target.files[0]);
@@ -207,6 +275,7 @@ const CreateChatBot = () => {
                     onClick={handleFetch}
                     variant={isFetching ? "destructive" : "default"}
                   >
+                    {isFetching && <Loader2 className="animate-spin" />}
                     {isFetching ? "Stop Fetching" : "Fetch Data"}
                   </Button>
                   {isTraining && !modelTrain && (
@@ -221,14 +290,6 @@ const CreateChatBot = () => {
                     </Button>
                   )}
                 </div>
-
-                {isFetching && (
-                  <div className="mt-4">
-                    <Label>Fetching Progress</Label>
-                    <Progress value={progress} className="h-2 w-full" />
-                    <p className="text-sm mt-2">{progress}% completed</p>
-                  </div>
-                )}
 
                 <div className="mt-6">
                   {!modelTrain ? (

@@ -14,13 +14,16 @@ export default function Connect() {
 
   const [copied, setCopied] = useState(false);
 
-  const scriptContent = `
-<script>
-window.apiKey ='${id}';
-</script>
-<script src="https://${window.location.hostname}/chatbot.min.js">
-</script>
-`;
+  //   const scriptContent = `
+  // <script>
+  // window.apiKey ='${id}';
+  // </script>
+  // <script src="https://${window.location.hostname}/chatbot.min.js">
+  // </script>
+  // `;
+
+  const scriptContent = `<script src="https://${window.location.hostname}/arivubot.min.js?apiKey=${id}"></script>`
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText(scriptContent).then(() => {
@@ -76,12 +79,16 @@ window.apiKey ='${id}';
                   </p>
                   <div className="rounded-md bg-gray-100 p-4">
                     <pre className="text-sm">
-                      <code>
+                      {/* <code>
                         {`<script>
 window.apiKey ='${id}';
 </script>
 <script src="https://${window.location.hostname}/chatbot.min.js">
 </script>`}
+                      </code> */}
+
+                      <code>
+                        {`<script src="https://${window.location.hostname}/arivubot.min.js?apiKey=${id}"></script>`}
                       </code>
                     </pre>
                   </div>
