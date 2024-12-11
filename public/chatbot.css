@@ -658,12 +658,12 @@ video {
     padding: .25rem
 }
 
-.p-2 {
-    padding: .5rem
-}
-
 .p-3 {
     padding: .75rem
+}
+
+.p-3\.5 {
+    padding: .875rem
 }
 
 .p-4 {
