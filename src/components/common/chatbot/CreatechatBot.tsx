@@ -181,6 +181,8 @@ const CreateChatBot = () => {
       setModelTrain(true);
       const response = await axios.post(`${backgroundApi}/scrape`, {
         links: data,
+      }, {
+        timeout: 0,
       });
 
       if (userid) {
